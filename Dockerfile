@@ -1,4 +1,4 @@
-# Dockerfile CPU Optimizado - Sin CUDA, Sin Cuelgues
+# Dockerfile CPU Optimizado - Con jq y PyMuPDF
 FROM python:3.10-slim
 
 # Metadatos
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Instalar PaddlePaddle CPU y dependencias optimizadas
+# Instalar PaddlePaddle CPU y dependencias optimizadas + PyMuPDF
 RUN pip install --no-cache-dir \
     paddlepaddle==2.6.1 \
     paddleocr==2.8.1 \
@@ -38,6 +38,7 @@ RUN pip install --no-cache-dir \
     pillow==10.0.0 \
     numpy==1.24.3 \
     pdf2image==1.16.3 \
+    PyMuPDF==1.23.3 \
     requests
 
 # Directorio de trabajo
