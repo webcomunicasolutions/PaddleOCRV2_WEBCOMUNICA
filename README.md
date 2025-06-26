@@ -13,7 +13,7 @@ Servidor OCR empresarial con **configuración GANADORA probada** que detecta **7
 
 ### 🏆 CONFIGURACIÓN GANADORA CONFIRMADA
 
-- **79 bloques detectados** en factura FORCH (vs 64 estándar)
+- **79 bloques detectados** en factura FO** (vs 64 estándar)
 - **97.5% confianza promedio** (rango 0.433 → 1.000)
 - **0.87 segundos** tiempo de procesamiento
 - **70 textos horizontales + 9 verticales** perfectamente identificados
