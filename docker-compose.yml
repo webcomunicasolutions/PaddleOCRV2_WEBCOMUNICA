@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  paddleocr-enterprise:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: ocr-server-enterprise
+    restart: unless-stopped
+    
+    # Configuración de red
+    ports:
+      - "8501:8501"
+    
+    # Volúmenes empresariales
+    volumes:
+      # Datos persistentes
+      - ./data:/app/data
+      # Modelos OCR (persistentes entre reinicios)
+      - paddleocr-models:/root/.paddleocr
+      # Configuración empresarial
+      - ./config:/app/config:ro
+      # Logs externos (opcional)
+      - ./logs:/app/data/logs
+    
+    # Variables de entorno empresariales
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=production
+      - OCR_LOG_LEVEL=INFO
+      - MAX_FILE_SIZE_MB=50
+      - RATE_LIMIT_REQUESTS=100
+      - RATE_LIMIT_WINDOW=60
+      - DEFAULT_LANGUAGE=es
+      - ENABLE_DETAILED_LOGGING=true
+    
+    # Límites de recursos para producción
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 6G
+        reservations:
+          cpus: '2.0'
+          memory: 3G
+    
+    # Healthcheck robusto
+    healthcheck:
+      test: ["CMD", "python", "/app/healthcheck.py"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+    
+    # Seguridad
+    security_opt:
+      - no-new-privileges:true
+    
+    # Red personalizada
+    networks:
+      - ocr-network
+    
+    # Labels para gestión empresarial
+    labels:
+      - "com.empresa.service=ocr-server"
+      - "com.empresa.environment=production"
+      - "com.empresa.version=3.0-enterprise"
+
+  # Nginx proxy reverso (opcional para producción)
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: ocr-nginx-proxy
+    restart: unless-stopped
+    
+    ports:
+      - "80:80"
+      - "443:443"
+    
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    
+    depends_on:
+      - paddleocr-enterprise
+    
+    networks:
+      - ocr-network
+    
+    # Solo habilitar si necesitas HTTPS/proxy
+    profiles:
+      - proxy
+
+  # Monitoreo con Prometheus (opcional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: ocr-prometheus
+    restart: unless-stopped
+    
+    ports:
+      - "9090:9090"
+    
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    
+    networks:
+      - ocr-network
+    
+    profiles:
+      - monitoring
+
+# Redes
+networks:
+  ocr-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Volúmenes persistentes
+volumes:
+  # Modelos OCR (crítico para rendimiento)
+  paddleocr-models:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/volumes/paddleocr-models
+  
+  # Datos de monitoreo
+  prometheus-data:
+    driver: local
+
+# Configuración adicional para desarrollo
+x-development: &development
+  environment:
+    - FLASK_ENV=development
+    - OCR_LOG_LEVEL=DEBUG
+  volumes:
+    - .:/app
+  command: python app.py --dev
+
+# Override para desarrollo
+services:
+  paddleocr-dev:
+    <<: *development
+    profiles:
+      - dev
