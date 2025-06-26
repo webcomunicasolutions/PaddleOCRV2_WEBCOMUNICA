@@ -12,10 +12,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV OMP_NUM_THREADS=4
 ENV MKL_NUM_THREADS=4
 
-# Instalar dependencias del sistema optimizadas para CPU
+# Instalar dependencias del sistema optimizadas para CPU + JQ
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
+    jq \
     poppler-utils \
     libgl1-mesa-glx \
     libglib2.0-0 \
