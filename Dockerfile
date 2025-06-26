@@ -1,13 +1,18 @@
-# Dockerfile CPU Optimizado - Con Fitz para PDFs
+# Dockerfile CPU Optimizado - Sin CUDA, Sin Cuelgues
 FROM python:3.10-slim
+
+# Metadatos
+LABEL maintainer="Tu Empresa de Mantenimiento Informático"
+LABEL version="3.0-cpu-optimized"
+LABEL description="Servidor OCR CPU optimizado sin dependencias CUDA"
 
 # Variables de entorno optimizadas para CPU
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
-ENV OMP_NUM_THREADS=1
-ENV MKL_NUM_THREADS=1
+ENV OMP_NUM_THREADS=4
+ENV MKL_NUM_THREADS=4
 
-# Instalar dependencias del sistema incluyendo las necesarias para PDF
+# Instalar dependencias del sistema optimizadas para CPU
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -19,11 +24,10 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     libgomp1 \
     libopenblas-dev \
-    libffi-dev \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Instalar PaddlePaddle CPU y dependencias con Fitz
+# Instalar PaddlePaddle CPU y dependencias optimizadas
 RUN pip install --no-cache-dir \
     paddlepaddle==2.6.1 \
     paddleocr==2.8.1 \
@@ -33,7 +37,6 @@ RUN pip install --no-cache-dir \
     pillow==10.0.0 \
     numpy==1.24.3 \
     pdf2image==1.16.3 \
-    PyMuPDF==1.23.3 \
     requests
 
 # Directorio de trabajo
@@ -46,7 +49,7 @@ RUN mkdir -p /app/data/input \
              /app/.paddleocr \
     && chmod -R 777 /app
 
-# Variables de entorno para PaddleOCR CPU (corregidas)
+# Variables de entorno para PaddleOCR CPU
 ENV PADDLE_HOME=/app/.paddleocr
 ENV FLAGS_allocator_strategy=auto_growth
 ENV FLAGS_fraction_of_gpu_memory_to_use=0
