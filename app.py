@@ -384,6 +384,109 @@ def stats():
         }
     })
 
+@app.route('/analyze', methods=['POST'])
+def analyze_file_ultra():
+    """Análisis ultra completo - formato visual espectacular"""
+    start_time = time.time()
+    client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.environ.get('REMOTE_ADDR', 'unknown'))
+    
+    server_stats['total_requests'] += 1
+    
+    try:
+        # Validaciones básicas (mismas que process)
+        if not ocr_initialized:
+            if not initialize_ocr_cpu():
+                return jsonify({'error': 'OCR not available'}), 503
+        
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file provided'}), 400
+        
+        file = request.files['file']
+        if not file or not file.filename:
+            return jsonify({'error': 'Invalid file'}), 400
+            
+        if not allowed_file(file.filename):
+            return jsonify({'error': 'Unsupported format'}), 400
+        
+        language = request.form.get('language', default_lang)
+        ocr = get_ocr_instance(language)
+        if ocr is None:
+            return jsonify({'error': 'OCR not available'}), 503
+        
+        filename = secure_filename(file.filename)
+        
+        # Procesar archivo
+        with tempfile.NamedTemporaryFile(delete=False, suffix=Path(filename).suffix) as tmp_file:
+            file.save(tmp_file.name)
+            
+            try:
+                result = ocr.ocr(tmp_file.name, cls=True)
+            finally:
+                try:
+                    os.remove(tmp_file.name)
+                except:
+                    pass
+        
+        # Procesar resultado
+        text_lines, confidences, coordinates_list = process_ocr_result_cpu(result)
+        orientations = analyze_orientations(coordinates_list)
+        
+        # Estadísticas
+        avg_confidence = sum(confidences) / len(confidences) if confidences else 0.0
+        processing_time = time.time() - start_time
+        
+        # FORMATO ULTRA COMPLETO VISUAL
+        ultra_output = []
+        ultra_output.append("🏆 CONFIGURACIÓN GANADORA - TODOS LOS BLOQUES:")
+        ultra_output.append(f"📊 Total bloques: {len(text_lines)}")
+        ultra_output.append(f"🎯 Confianza: {avg_confidence*100:.1f}%")
+        ultra_output.append(f"⚡ Tiempo: {processing_time:.3f}s")
+        ultra_output.append("=" * 60)
+        
+        # Procesar cada bloque con emoji de orientación
+        for i, text in enumerate(text_lines):
+            confidence = confidences[i] if i < len(confidences) else 0.0
+            
+            # Detectar orientación
+            orientation = 'horizontal'
+            if i < len(coordinates_list):
+                orientation = detect_text_orientation(coordinates_list[i])
+            
+            # Emoji según orientación
+            emoji = '↔️' if orientation == 'horizontal' else '↕️' if orientation == 'vertical' else '🔄'
+            
+            ultra_output.append(f"{i+1:2d}. {emoji} \"{text}\" ({confidence:.3f})")
+        
+        ultra_output.append("=" * 60)
+        ultra_output.append(f"📊 Orientaciones: {orientations.get('horizontal', 0)} horiz, {orientations.get('vertical', 0)} vert, {orientations.get('rotated', 0)} rotadas")
+        
+        # Actualizar estadísticas
+        server_stats['successful_requests'] += 1
+        server_stats['total_processing_time'] += processing_time
+        
+        return jsonify({
+            'success': True,
+            'ultra_analysis': '\n'.join(ultra_output),
+            'raw_data': {
+                'total_blocks': len(text_lines),
+                'avg_confidence': round(avg_confidence, 3),
+                'processing_time': round(processing_time, 3),
+                'orientations': orientations,
+                'filename': filename,
+                'language': language
+            }
+        })
+        
+    except Exception as e:
+        processing_time = time.time() - start_time
+        server_stats['failed_requests'] += 1
+        
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'processing_time': round(processing_time, 3)
+        }), 500
+
 @app.route('/process', methods=['POST'])
 def process_file():
     """Procesamiento OCR CPU optimizado"""
