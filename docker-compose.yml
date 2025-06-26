@@ -1,42 +1,53 @@
 version: '3.8'
 
 services:
-  paddleocr-server:
+  paddleocr-cpu:
     build: .
-    container_name: ocr-server-fixed
+    container_name: ocr-server-cpu
     restart: unless-stopped
     
     ports:
       - "8501:8501"
     
     volumes:
-      # Usar directorios con permisos correctos
       - ./data:/app/data
-      - paddleocr-models:/app/.paddleocr
+      - paddleocr-cpu-models:/app/.paddleocr
     
     environment:
       - PYTHONUNBUFFERED=1
       - FLASK_ENV=production
-      # Variables para evitar problemas de permisos
+      # CPU optimizations
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
       - PADDLE_HOME=/app/.paddleocr
-      - MPLCONFIGDIR=/app/.matplotlib
+      - FLAGS_allocator_strategy=auto_growth
+      - FLAGS_fraction_of_gpu_memory_to_use=0
+      - CUDA_VISIBLE_DEVICES=""
     
     deploy:
       resources:
         limits:
-          memory: 6G
+          memory: 4G
           cpus: '4.0'
         reservations:
-          memory: 3G
+          memory: 2G
           cpus: '2.0'
     
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8501/health"]
       interval: 30s
-      timeout: 10s
+      timeout: 15s
       retries: 3
-      start_period: 120s
+      start_period: 90s
+    
+    # Sin GPU - solo CPU
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 0
 
 volumes:
-  paddleocr-models:
+  paddleocr-cpu-models:
     driver: local
