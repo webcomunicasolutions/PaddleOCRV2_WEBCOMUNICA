@@ -104,7 +104,7 @@ curl -X POST http://localhost:8501/analyze \
  3. ↔️ "FACTURA RECTIFICATIVA" (0.998)
  4. ↔️ "Datos Fiscales" (1.000)
 ...
-79. ↔️ "dptojuridico@forch.es" (0.998)
+79. ↔️ "dpto***idico@***.es" (0.998)
 ============================================================
 📊 Orientaciones: 70 horiz, 9 vert, 0 rotadas
 ```
@@ -199,7 +199,7 @@ services:
 ```json
 {
   "success": true,
-  "text": "FACTURA\\nROGOLUMA\\n...",
+  "text": "FACTURA\\n******MA\\n...",
   "total_blocks": 79,
   "avg_confidence": 0.975,
   "processing_time": 0.873,
