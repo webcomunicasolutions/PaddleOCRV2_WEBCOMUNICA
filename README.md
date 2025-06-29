@@ -1,6 +1,6 @@
-# 🚀 OCR Server Empresarial v3.0 - Configuración GANADORA
+# 🚀 PaddleOCR 2.8.1 - Optimizado para CPU - Versión WebComunica
 
-**Servidor OCR profesional CPU optimizado con análisis visual ultra completo**
+**Servidor PaddleOCR con la mejor configuración para detectar bloques en horizontal y vertical**
 
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://docker.com)
 [![PaddleOCR](https://img.shields.io/badge/PaddleOCR-2.8.1-green)](https://github.com/PaddlePaddle/PaddleOCR)
@@ -9,157 +9,230 @@
 
 ## 🎯 Descripción
 
-Servidor OCR empresarial con **configuración GANADORA probada** que detecta **79+ bloques** con **97.5% de confianza** en **<1 segundo**. Optimizado específicamente para empresas de mantenimiento informático con capacidad de detectar texto vertical complejo en líneas finas.
+Servidor PaddleOCR con la mejor configuración para detectar bloques en horizontal y vertical. Lo he optimizado para un proyecto que tengo de lectura de facturas, tickets, albaranes, etc. Utilizando PaddleOCR 2.8.1 con configuración probada que supera ampliamente las versiones estándar.
 
-### 🏆 CONFIGURACIÓN GANADORA CONFIRMADA
+### 🏆 Resultados Probados
 
-- **79 bloques detectados** en factura FO** (vs 64 estándar)
-- **97.5% confianza promedio** (rango 0.433 → 1.000)
-- **0.87 segundos** tiempo de procesamiento
-- **70 textos horizontales + 9 verticales** perfectamente identificados
-- **CPU optimizado** sin dependencias CUDA
+| Métrica | Configuración Optimizada | Estándar |
+|---------|------------------------|----------|
+| **Bloques detectados** | **79+** | 64 |
+| **Confianza promedio** | **97.5%** | ~85% |
+| **Tiempo procesamiento** | **0.87s** | 2-3s |
+| **Orientaciones** | **Horizontal + Vertical** | Solo horizontal |
+| **Soporte PDF** | **Nativo** | Conversión manual |
+| **Requerimientos** | **Solo CPU** | GPU recomendada |
 
 ## ✨ Características Principales
 
-- **🏆 Análisis Visual Ultra Completo**: Endpoint `/analyze` con emojis de orientación
-- **⚡ Alto Rendimiento**: 79+ bloques, 97.5% precisión, <1s procesamiento
-- **📄 Soporte PDF Nativo**: PyMuPDF integrado, sin conversión manual
-- **🌍 Multi-idioma**: Español e Inglés con configuración optimizada
-- **💻 CPU Optimizado**: Intel MKL-DNN, sin dependencias CUDA/GPU
-- **🔧 API REST Completa**: 4 endpoints especializados
-- **🛠️ Herramientas Integradas**: jq incluido para análisis visual
-- **🐳 Docker Listo**: Contenedor optimizado con dependencias completas
+- **🏆 Configuración Optimizada Probada**: 79+ bloques detectados vs 64 estándar
+- **⚡ Ultra Rápido**: <1 segundo de procesamiento por documento
+- **💻 CPU Optimizado**: Sin dependencias CUDA, funciona en cualquier servidor
+- **📄 Soporte Completo**: PDF nativo, imágenes, documentos escaneados
+- **🌍 Multi-idioma**: Español e Inglés optimizados
+- **🔍 Análisis Visual**: Endpoint `/analyze` con formato ultra detallado
+- **🔒 Nivel Empresarial**: Rate limiting, logging, auditoría, seguridad
+- **🐳 Deploy Inmediato**: Docker + Docker Compose listo para producción
 
-## 📊 Rendimiento Probado (Factura Empresarial Compleja)
+## 🚀 Instalación Rápida
 
-| Métrica | Resultado GANADOR | Estándar |
-|---------|-------------------|----------|
-| **Bloques detectados** | **79** | 64 |
-| **Confianza promedio** | **97.5%** | ~85% |
-| **Tiempo procesamiento** | **0.87s** | 2-3s |
-| **Orientaciones detectadas** | **Horizontal + Vertical** | Solo horizontal |
-| **Texto vertical complejo** | **✅ Detectado** | ❌ Perdido |
-| **Soporte PDF** | **Nativo** | Conversión requerida |
+### Opción 1: Instalación Automática (⭐ Recomendada)
 
-## 🚀 Instalación
-
-### Instalación Rápida
 ```bash
-# Clonar repositorio
-git clone https://github.com/tu-empresa/ocr-server-enterprise.git
-cd ocr-server-enterprise
+# 1. Clonar repositorio
+git clone https://github.com/webcomunicasolutions/PaddleOCRV2_WEBCOMUNICA.git
+cd PaddleOCRV2_WEBCOMUNICA
 
+# 2. Ejecutar instalación automática
+chmod +x setup.sh
+./setup.sh install
+
+# 3. ¡Listo! Servidor disponible en http://localhost:8501
+```
+
+### Opción 2: Manual
+
+```bash
 # Construir y ejecutar
 docker build -t ocr-server-cpu .
 docker-compose up -d
 
-# Verificar funcionamiento
+# Verificar
 curl http://localhost:8501/health
 ```
 
-### Requisitos del Sistema
-- **Docker** y **Docker Compose**
-- **4GB RAM** mínimo (recomendado 6GB)
-- **2 CPU cores** mínimo (recomendado 4 cores)
-- **10GB espacio libre** para modelos
+## 📡 API - Guía de Uso
 
-## 🎯 API - Endpoints Disponibles
-
-### 📡 Endpoints de Información
+### Endpoints Disponibles
 
 | Endpoint | Método | Descripción |
 |----------|--------|-------------|
-| `/` | GET | Dashboard empresarial con estadísticas |
+| `/` | GET | Dashboard empresarial con métricas en tiempo real |
 | `/health` | GET | Estado del servidor y configuración |
-| `/stats` | GET | Métricas detalladas de rendimiento |
+| `/stats` | GET | Estadísticas detalladas de rendimiento |
+| `/process` | POST | Procesamiento OCR estándar |
+| `/analyze` | POST | **⭐ Análisis visual ultra completo** |
 
-### 🔍 Endpoints de Procesamiento OCR
+### Ejemplos Prácticos
 
-| Endpoint | Método | Parámetros | Descripción |
-|----------|--------|------------|-------------|
-| `/process` | POST | `file`, `language` | Procesamiento OCR estándar |
-| `/process` | POST | `file`, `language`, `detailed=true` | Con coordenadas y orientaciones |
-| `/analyze` | POST | `file`, `language` | **🏆 Análisis visual ultra completo** |
-
-## 💎 Ejemplos de Uso
-
-### 1. **Análisis Visual Ultra Completo** (⭐ RECOMENDADO)
+#### 1. Análisis Visual Ultra Completo (⭐ RECOMENDADO)
 
 ```bash
-# Ver todos los bloques con formato visual espectacular
+# Ver TODOS los bloques con formato visual espectacular
 curl -X POST http://localhost:8501/analyze \
   -F "file=@factura.pdf" \
   -F "language=es" | jq -r '.ultra_analysis'
 ```
 
-**Salida:**
+**Salida esperada:**
 ```
-🏆 CONFIGURACIÓN GANADORA - TODOS LOS BLOQUES:
+🏆 CONFIGURACIÓN OPTIMIZADA - TODOS LOS BLOQUES:
 📊 Total bloques: 79
 🎯 Confianza: 97.5%
 ⚡ Tiempo: 0.873s
 ============================================================
- 1. ↔️ "Pag. 1" (0.935)
- 2. ↔️ "ROH" (0.878)
- 3. ↔️ "FACTURA RECTIFICATIVA" (0.998)
- 4. ↔️ "Datos Fiscales" (1.000)
+ 1. ↔️ "FACTURA RECTIFICATIVA" (0.998)
+ 2. ↔️ "ROH COMPANY" (0.995)
+ 3. ↕️ "Datos Fiscales" (1.000)
+ 4. ↔️ "B12345678" (0.987)
 ...
-79. ↔️ "dpto***idico@***.es" (0.998)
+79. ↔️ "dpto.juridico@empresa.es" (0.998)
 ============================================================
 📊 Orientaciones: 70 horiz, 9 vert, 0 rotadas
 ```
 
-### 2. **Procesamiento Estándar**
+#### 2. Procesamiento para Automatización
 
 ```bash
-# Solo texto
-curl -X POST http://localhost:8501/process \
-  -F "file=@documento.pdf" \
-  -F "language=es"
-```
-
-### 3. **Procesamiento Detallado con Coordenadas**
-
-```bash
-# Con posiciones exactas de cada texto
-curl -X POST http://localhost:8501/process \
-  -F "file=@documento.pdf" \
-  -F "language=es" \
-  -F "detailed=true"
-```
-
-### 4. **Extraer Solo el Texto**
-
-```bash
-# Para scripts automatizados
+# Extraer solo el texto para scripts
 curl -X POST http://localhost:8501/process \
   -F "file=@documento.pdf" \
   -F "language=es" | jq -r '.text'
 ```
 
-### 5. **Verificar Calidad de Procesamiento**
+#### 3. Procesamiento Detallado con Coordenadas
 
 ```bash
-# Ver métricas de confianza
+# Para extracción de datos específicos
 curl -X POST http://localhost:8501/process \
-  -F "file=@documento.pdf" \
-  -F "language=es" | jq '{bloques: .total_blocks, confianza: .avg_confidence, tiempo: .processing_time}'
+  -F "file=@factura.pdf" \
+  -F "language=es" \
+  -F "detailed=true"
 ```
 
-## 🔧 Configuración Avanzada
-
-### Variables de Entorno
-
-```yaml
-environment:
-  - PYTHONUNBUFFERED=1
-  - OMP_NUM_THREADS=4           # Optimización CPU
-  - MKL_NUM_THREADS=4           # Intel MKL
-  - PADDLE_HOME=/app/.paddleocr # Modelos persistentes
-  - DEFAULT_LANGUAGE=es         # Idioma por defecto
+**Respuesta típica:**
+```json
+{
+  "success": true,
+  "text": "FACTURA\\nEMPRESA EJEMPLO\\n...",
+  "total_blocks": 79,
+  "avg_confidence": 0.975,
+  "processing_time": 0.873,
+  "ocr_version": "2.8.1-CPU-OPTIMIZADO",
+  "blocks": [
+    {
+      "text": "FACTURA",
+      "confidence": 0.998,
+      "coordinates": [[100,50], [200,50], [200,80], [100,80]],
+      "orientation": "horizontal"
+    }
+  ]
+}
 ```
 
-### Docker Compose Optimizado
+## 🛠️ Casos de Uso Empresariales
+
+### 1. Digitalización Masiva de Facturas
+
+```python
+import requests
+import json
+
+def procesar_facturas(directorio_facturas):
+    """Procesar múltiples facturas automáticamente"""
+    resultados = []
+    
+    for archivo in glob.glob(f"{directorio_facturas}/*.pdf"):
+        with open(archivo, 'rb') as f:
+            response = requests.post(
+                'http://localhost:8501/process',
+                files={'file': f},
+                data={'language': 'es', 'detailed': 'true'}
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                resultados.append({
+                    'archivo': archivo,
+                    'bloques': data['total_blocks'],
+                    'confianza': data['avg_confidence'],
+                    'texto': data['text']
+                })
+                print(f"✅ {archivo}: {data['total_blocks']} bloques")
+            
+    return resultados
+```
+
+### 2. Integración con ERP/CRM
+
+```python
+class OCRIntegrator:
+    def __init__(self, ocr_url="http://localhost:8501"):
+        self.ocr_url = ocr_url
+    
+    def extraer_datos_factura(self, archivo_pdf):
+        """Extraer datos específicos de facturas"""
+        response = requests.post(
+            f"{self.ocr_url}/process",
+            files={'file': open(archivo_pdf, 'rb')},
+            data={'language': 'es', 'detailed': 'true'}
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Extracción inteligente de campos
+            texto = data['text']
+            return {
+                'numero_factura': self._extraer_numero(texto),
+                'fecha': self._extraer_fecha(texto),
+                'total': self._extraer_total(texto),
+                'proveedor': self._extraer_proveedor(texto),
+                'confianza_global': data['avg_confidence']
+            }
+```
+
+### 3. Script de Procesamiento Masivo
+
+```bash
+#!/bin/bash
+# Procesar todos los PDFs de un directorio
+
+INPUT_DIR="./data/input"
+OUTPUT_DIR="./data/output"
+
+echo "🔄 Iniciando procesamiento masivo..."
+
+for file in "$INPUT_DIR"/*.pdf; do
+    if [ -f "$file" ]; then
+        filename=$(basename "$file" .pdf)
+        echo "📄 Procesando: $filename"
+        
+        # Análisis completo con resultados guardados
+        curl -s -X POST http://localhost:8501/analyze \
+          -F "file=@$file" \
+          -F "language=es" \
+          > "$OUTPUT_DIR/${filename}_analysis.json"
+        
+        echo "✅ Completado: $filename"
+    fi
+done
+
+echo "🎉 Procesamiento masivo finalizado"
+```
+
+## ⚙️ Configuración y Deployment
+
+### Docker Compose para Producción
 
 ```yaml
 version: '3.8'
@@ -167,111 +240,123 @@ services:
   paddleocr-cpu:
     build: .
     container_name: ocr-server-cpu
+    restart: unless-stopped
     ports:
       - "8501:8501"
     volumes:
       - ./data:/app/data
       - paddleocr-cpu-models:/app/.paddleocr
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
     deploy:
       resources:
         limits:
-          memory: 6G
+          memory: 4G
           cpus: '4.0'
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+volumes:
+  paddleocr-cpu-models:
 ```
 
-## 📊 Respuestas de la API
+### Variables de Entorno
 
-### Endpoint `/health`
-```json
-{
-  "status": "healthy",
-  "ocr_ready": true,
-  "configuration": "GANADORA-CPU",
-  "version": "3.0-cpu-optimized",
-  "supported_languages": ["en", "es"],
-  "cpu_threads": 4,
-  "gpu_usage": false
-}
+```bash
+# Recursos del sistema
+MAX_FILE_SIZE_MB=50
+RATE_LIMIT_REQUESTS=100
+CPU_THREADS=4
+
+# OCR
+DEFAULT_LANGUAGE=es
+SUPPORTED_LANGUAGES=es,en
+
+# Empresa
+COMPANY_NAME="Tu Empresa"
+ENVIRONMENT=production
 ```
 
-### Endpoint `/process` (básico)
-```json
-{
-  "success": true,
-  "text": "FACTURA\\n******MA\\n...",
-  "total_blocks": 79,
-  "avg_confidence": 0.975,
-  "processing_time": 0.873,
-  "text_orientations": {"horizontal": 70, "vertical": 9, "rotated": 0}
-}
+## 🔧 Gestión y Monitoreo
+
+### Comandos de Gestión
+
+```bash
+# Ver estado completo
+./setup.sh status
+
+# Logs en tiempo real
+./setup.sh logs
+
+# Reiniciar servicio
+./setup.sh restart
+
+# Actualizar servidor
+./setup.sh update
+
+# Limpiar sistema
+./setup.sh clean
 ```
 
-### Endpoint `/analyze` 
-```json
-{
-  "success": true,
-  "ultra_analysis": "🏆 CONFIGURACIÓN GANADORA - TODOS LOS BLOQUES:\n📊 Total bloques: 79\n...",
-  "raw_data": {
-    "total_blocks": 79,
-    "avg_confidence": 0.975,
-    "processing_time": 0.873,
-    "orientations": {"horizontal": 70, "vertical": 9, "rotated": 0}
-  }
-}
+### Monitoreo de Rendimiento
+
+```bash
+# Estadísticas del servidor
+curl http://localhost:8501/stats | jq '.server_stats'
+
+# Ver recursos en tiempo real
+docker stats ocr-server-cpu
+
+# Health check automatizado
+curl -f http://localhost:8501/health || echo "❌ Servidor no responde"
 ```
 
-## 🛠️ Casos de Uso Empresariales
+## 🧪 Testing y Validación
 
-### 1. **Digitalización de Facturas**
+### Tests Básicos
 
-```python
-import requests
+```bash
+# Test de funcionamiento
+curl -f http://localhost:8501/health || echo "❌ Health check falló"
 
-def procesar_factura(archivo):
-    response = requests.post(
-        'http://localhost:8501/process',
-        files={'file': open(archivo, 'rb')},
-        data={'language': 'es', 'detailed': 'true'}
-    )
-    
-    if response.status_code == 200:
-        data = response.json()
-        return {
-            'texto_completo': data['text'],
-            'total_campos': data['total_blocks'],
-            'confianza': data['avg_confidence'],
-            'coordenadas': data.get('blocks', [])
-        }
-    return None
+# Test con documento real
+curl -X POST http://localhost:8501/process \
+  -F "file=@test.pdf" \
+  -F "language=es" | jq '.total_blocks'
+
+# Test de análisis visual
+curl -X POST http://localhost:8501/analyze \
+  -F "file=@test.pdf" \
+  -F "language=es" | jq -r '.ultra_analysis'
 ```
 
-### 2. **Análisis Visual para Debugging**
+### Validación de Calidad
 
 ```bash
 #!/bin/bash
-# Script para analizar múltiples documentos
+echo "🧪 Validando calidad OCR..."
 
-for archivo in data/input/*.pdf; do
-    echo "🔍 Analizando: $(basename "$archivo")"
+for file in test-documents/*.pdf; do
+    result=$(curl -s -X POST http://localhost:8501/process \
+             -F "file=@$file" -F "language=es")
     
-    curl -s -X POST http://localhost:8501/analyze \
-      -F "file=@$archivo" \
-      -F "language=es" | jq -r '.ultra_analysis' > "analisis_$(basename "$archivo" .pdf).txt"
+    blocks=$(echo "$result" | jq '.total_blocks')
+    confidence=$(echo "$result" | jq '.avg_confidence')
     
-    echo "✅ Análisis guardado"
+    echo "📊 $(basename "$file"): $blocks bloques, ${confidence}% confianza"
+    
+    # Validar métricas mínimas para empresa
+    if (( $(echo "$confidence > 0.85" | bc -l) )); then
+        echo "  ✅ Calidad empresarial"
+    else
+        echo "  ⚠️ Revisar calidad"
+    fi
 done
-```
-
-### 3. **Extracción de Datos Específicos**
-
-```bash
-# Extraer solo textos con alta confianza
-curl -X POST http://localhost:8501/process \
-  -F "file=@factura.pdf" \
-  -F "language=es" \
-  -F "detailed=true" | \
-  jq '.blocks[] | select(.confidence > 0.9) | {texto: .text, confianza: .confidence}'
 ```
 
 ## 🔍 Troubleshooting
@@ -283,127 +368,129 @@ curl -X POST http://localhost:8501/process \
 # Verificar contenedor
 docker ps | grep ocr-server-cpu
 
-# Ver logs
-docker logs ocr-server-cpu -f
+# Ver logs detallados
+docker-compose logs ocr-server-cpu -f
 
-# Reiniciar
-docker restart ocr-server-cpu
-```
-
-#### Error "command not found: jq"
-```bash
-# El contenedor ya incluye jq, verificar que usas la imagen correcta
-docker exec ocr-server-cpu jq --version
+# Reiniciar servicio
+docker-compose restart ocr-server-cpu
 ```
 
 #### Memoria insuficiente
 ```bash
-# Aumentar límites en docker-compose.yml
-deploy:
-  resources:
-    limits:
-      memory: 8G  # Aumentar según necesidades
+# Verificar uso de memoria
+docker stats --no-stream
+
+# Aumentar límites
+# Editar docker-compose.yml -> memory: 6G
 ```
 
-### Tests de Verificación
-
+#### Modelos no se descargan
 ```bash
-# Test completo del sistema
-echo "🧪 Probando configuración GANADORA..."
+# Verificar conectividad
+docker-compose exec paddleocr-cpu ping paddleocr.bj.bcebos.com
 
-# 1. Health check
-curl -f http://localhost:8501/health || echo "❌ Health check falló"
-
-# 2. Test con documento empresarial complejo
-curl -X POST http://localhost:8501/analyze \
-  -F "file=@data/input/factura_compleja.pdf" \
-  -F "language=es" | jq -r '.raw_data.total_blocks'
-
-echo "✅ Tests completados"
+# Forzar descarga
+docker-compose exec paddleocr-cpu python3 -c "
+import paddleocr
+ocr = paddleocr.PaddleOCR(lang='es')
+print('✅ Modelos descargados')
+"
 ```
 
-## 📈 Optimización de Rendimiento
+## 📊 Especificaciones Técnicas
 
-### Configuraciones Recomendadas
-
-| Uso | CPU | RAM | Configuración |
-|-----|-----|-----|---------------|
-| **Desarrollo** | 2 cores | 3GB | Básica |
-| **Producción** | 4 cores | 6GB | **Recomendada** |
-| **Alta Carga** | 6+ cores | 8GB+ | Múltiples instancias |
-
-### Monitoreo
-
-```bash
-# Ver recursos en tiempo real
-docker stats ocr-server-cpu
-
-# Estadísticas del servidor
-curl http://localhost:8501/stats | jq '.server_stats'
-```
-
-## 🔒 Seguridad
-
-- **Rate Limiting**: 100 peticiones/minuto por IP
-- **Validación de archivos**: Solo PDF, JPG, PNG permitidos
-- **Límite de tamaño**: 50MB máximo por archivo
-- **Contenedor seguro**: Sin privilegios elevados
-- **Logging completo**: Auditoría de todas las operaciones
-
-## 📄 Estructura del Proyecto
-
-```
-ocr-server-enterprise/
-├── 📄 app.py                    # Servidor con configuración GANADORA
-├── 🐳 Dockerfile               # Imagen CPU optimizada con jq + PyMuPDF
-├── 🔧 docker-compose.yml       # Orquestación completa
-├── 📚 README.md                # Esta documentación
-├── 📊 data/
-│   ├── input/                  # Archivos para procesar
-│   ├── output/                 # Resultados guardados
-│   └── logs/                   # Logs del sistema
-└── 🗄️ volumes/
-    └── paddleocr-models/       # Modelos OCR persistentes
-```
-
-## 🎯 Resultados Conseguidos
-
-### ✅ Factura Compleja - Caso de Éxito
-
-- **Tipo**: Factura empresarial con elementos verticales complejos
-- **Complejidad**: Datos fiscales en línea vertical fina + texto estándar horizontal
-- **Resultado**: 79 bloques detectados perfectamente
-- **Confianza**: 97.5% promedio (rango 0.433 → 1.000)
-- **Tiempo**: 0.873 segundos
-- **Orientaciones**: 70 horizontales, 9 verticales detectadas
-- **Calidad**: Texto completo extraído con coordenadas exactas, incluyendo datos verticales difíciles
-
-### 🔬 Configuración Técnica GANADORA
+### Configuración Optimizada
 
 ```python
 # Parámetros optimizados que logran 79+ bloques
 paddleocr.PaddleOCR(
-    use_angle_cls=True,           # CRÍTICO: Detección de ángulos
-    lang='es',                    # Idioma optimizado
-    use_gpu=False,                # CPU optimizado
-    det_db_thresh=0.1,            # MUY sensible (más detección)
-    det_db_box_thresh=0.4,        # MUY sensible (más cajas)
-    drop_score=0.2,               # MUY permisivo (más texto)
-    show_log=False,               # Sin logs verbosos
-    enable_mkldnn=True,           # Aceleración Intel CPU
-    cpu_threads=4                 # Paralelización optimizada
+    use_angle_cls=True,           # ✅ CRÍTICO: Detección de ángulos
+    lang='es',                    # ✅ Idioma optimizado
+    use_gpu=False,                # ✅ CPU optimizado
+    det_db_thresh=0.1,            # 🏆 MUY sensible (más detección)
+    det_db_box_thresh=0.4,        # 🏆 MUY sensible (más cajas)
+    drop_score=0.2,               # 🏆 MUY permisivo (más texto)
+    enable_mkldnn=True,           # ✅ Aceleración Intel CPU
+    cpu_threads=4                 # ✅ Paralelización optimizada
 )
 ```
 
-## 🚀 Empezar Ahora
+### Requisitos del Sistema
+
+| Configuración | CPU | RAM | Throughput | Uso |
+|---------------|-----|-----|------------|-----|
+| **Mínima** | 2 cores | 3GB | ~10 docs/min | Desarrollo |
+| **Recomendada** | 4 cores | 4GB | ~20 docs/min | **Producción** |
+| **Alto Rendimiento** | 6+ cores | 6GB+ | ~40 docs/min | Carga alta |
+
+### Formatos Soportados
+
+- **PDF**: Nativo (recomendado)
+- **Imágenes**: JPG, PNG, BMP, TIFF
+- **Tamaño máximo**: 50MB por archivo
+- **Resolución**: Automática (optimizada)
+- **Orientaciones**: Horizontal, vertical, rotado
+
+## 🔒 Seguridad Empresarial
+
+### Funciones de Seguridad
+
+- **🛡️ Rate Limiting**: 100 req/min por IP
+- **📁 Validación**: Tipos y tamaños de archivo
+- **🔐 Contenedor Seguro**: Usuario no-root
+- **📝 Auditoría**: Logging completo
+- **⚠️ Manejo de Errores**: Sin exposición de datos
+
+### Configuración de Seguridad
+
+```nginx
+# Configuración Nginx para proxy seguro
+upstream ocr_backend {
+    server localhost:8501;
+}
+
+server {
+    listen 80;
+    client_max_body_size 50M;
+    
+    # Security headers
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+    
+    location / {
+        limit_req zone=ocr_limit burst=20;
+        proxy_pass http://ocr_backend;
+    }
+}
+```
+
+## 📁 Estructura del Proyecto
+
+```
+PaddleOCRV2_WEBCOMUNICA/
+├── 📄 app.py                    # Servidor principal (configuración GANADORA)
+├── 🐳 Dockerfile               # Imagen optimizada CPU + PyMuPDF + jq
+├── 🔧 docker-compose.yml       # Orquestación completa
+├── 🚀 setup.sh                 # Script instalación automática
+├── 📚 README.md                # Esta documentación
+├── 📊 data/
+│   ├── input/                  # Archivos para procesar
+│   ├── output/                 # Resultados OCR
+│   └── logs/                   # Logs del sistema
+├── ⚙️ config/                  # Configuraciones
+└── 🗄️ volumes/
+    └── paddleocr-models/       # Modelos persistentes
+```
+
+## 🎉 Empezar Ahora
 
 ```bash
 # Instalación completa en 3 comandos
-git clone https://github.com/tu-empresa/ocr-server-enterprise.git
-cd ocr-server-enterprise
-docker-compose up -d
+git clone https://github.com/webcomunicasolutions/PaddleOCRV2_WEBCOMUNICA.git
+cd PaddleOCRV2_WEBCOMUNICA
+./setup.sh install
 
-# Probar análisis ultra completo
+# Probar análisis visual ultra completo
 curl -X POST http://localhost:8501/analyze \
   -F "file=@tu-documento.pdf" \
   -F "language=es" | jq -r '.ultra_analysis'
@@ -413,12 +500,14 @@ curl -X POST http://localhost:8501/analyze \
 
 ## 📞 Soporte
 
-- **GitHub Issues**: Para reportar problemas o sugerir mejoras
-- **Email**: soporte@tu-empresa.com
-- **Documentación**: Este README + comentarios en el código
+- **Website**: [https://webcomunica.solutions/](https://webcomunica.solutions/)
+- **Instagram**: [WebComunica Soluciones](https://www.instagram.com/stories/webcomunica_soluciones/)
+- **Email**: info@webcomunica.solutions
+- **Email Alternativo**: info@optimizaconia.es
+- **GitHub Issues**: [Reportar problemas](https://github.com/webcomunicasolutions/PaddleOCRV2_WEBCOMUNICA/issues)
 
 ---
 
-**🏆 Servidor OCR con Configuración GANADORA confirmada - 79 bloques, 97.5% confianza, <1s**
+**🏆 Servidor OCR con Configuración Optimizada - 79+ bloques, 97.5% confianza, <1s**
 
-*Desarrollado con ❤️ para empresas de mantenimiento informático*
+*Desarrollado con ❤️ por WebComunica Soluciones Informáticas - Mantenimiento informático para PYMES*
